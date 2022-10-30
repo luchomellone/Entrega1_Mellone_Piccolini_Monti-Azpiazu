@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Bares, Heladerias, Restaurantes
+from .models import Bares, Restaurantes, Heladerias
+
+def inicio(request):
+    return render(request, 'inicio.html')
 
 def bar (request, nombre, email, telefono):
 

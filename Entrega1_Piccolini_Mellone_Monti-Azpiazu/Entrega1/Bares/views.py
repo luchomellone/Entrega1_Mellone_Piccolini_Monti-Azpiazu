@@ -5,15 +5,12 @@ from .models import Bares, Restaurantes, Heladerias
 def inicio(request):
     return render(request, 'inicio.html')
 
-def bar (request, nombre, email, telefono):
+def bar (request):
+    return render(request, 'bares.html')
 
-    return 
+def restaurant (request):
+    return render(request, 'restaurantes.html')
 
-def restaurant (request, nombre, email, telefono):
-
-    return 
-
-def heladeria (request, nombre, email, telefono):
-
-    return 
+def heladeria (request):
+    return render(request, 'heladerias.html')
 

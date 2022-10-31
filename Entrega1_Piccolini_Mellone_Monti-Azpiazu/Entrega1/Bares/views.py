@@ -1,28 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Bares, Restaurantes, Heladerias
-from .forms import Bar_formulario
+from .forms import Bar_formulario, Buscar_formulario
 
 def inicio(request):
     return render(request, 'inicio.html')
 
-def bar(request, nombre, email, telefono):
-    bar = Bares(nombre=nombre, email=email, telefono=telefono)
-    bar.save()
-    return render(request, "Bares.html")
-
-def listabares(request):
+def lista_bares(request):
     bares = Bares.objects.all()
-    return render(request, 'listabares.html', {"listabares": bares})
+    return render(request, 'bares.html', {'listabares': bares})
 
-def bares(request):
-    bares = Bares.objects.all()
-    return render(request, 'Bares.html', {'listabares': bares})
-
-def restaurant (request):
+def lista_restaurantes (request):
     return render(request, 'restaurantes.html')
 
-def heladeria (request):
+def lista_heladerias (request):
     return render(request, 'heladerias.html')
 
 def bar_formulario(request):
@@ -33,22 +24,22 @@ def bar_formulario(request):
             bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
             bar.save()
             
-            return HttpResponse('/app-bares/')
+            return redirect('Bares')
     else:
         mi_formulario = Bar_formulario()
 
     return render(request, 'bar_formulario.html', {'mi_formulario':mi_formulario})
 
-def formu(request):
+def buscar_formulario(request):
     if request.method == 'POST':
-        mi_formulario = Bar_formulario(request.POST)
+        mi_formulario = Buscar_formulario(request.POST)
         if mi_formulario.is_valid():
             data = mi_formulario.cleaned_data
             bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
             bar.save()
             return redirect('Bares')
     else:
-        mi_formulario = Bar_formulario()
+        mi_formulario = Buscar_formulario()
 
-    return render(request, 'Formulario_buscar.html', {'mi_formulario':mi_formulario})
+    return render(request, 'buscar_formulario.html', {'mi_formulario':mi_formulario})
 

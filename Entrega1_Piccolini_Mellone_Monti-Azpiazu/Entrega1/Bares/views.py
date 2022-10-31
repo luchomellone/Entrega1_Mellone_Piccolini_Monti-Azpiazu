@@ -6,13 +6,18 @@ from .forms import Bar_formulario
 def inicio(request):
     return render(request, 'inicio.html')
 
-def bar (request):
-    
-    return render(request, 'Bares.html')
+def bar(request, nombre, email, telefono):
+    bar = Bares(nombre=nombre, email=email, telefono=telefono)
+    bar.save()
+    return render(request, "Bares.html")
 
-def listabares (request):
+def listabares(request):
     bares = Bares.objects.all()
-    return render(request, 'Bares.html', {"listabares": bares})
+    return render(request, 'listabares.html', {"listabares": bares})
+
+def bares(request):
+    bares = Bares.objects.all()
+    return render(request, 'Bares.html', {'listabares': bares})
 
 def restaurant (request):
     return render(request, 'restaurantes.html')
@@ -27,7 +32,8 @@ def bar_formulario(request):
             data = mi_formulario.cleaned_data
             bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
             bar.save()
-            return redirect('Bares')
+            
+            return HttpResponse('/app-bares/')
     else:
         mi_formulario = Bar_formulario()
 

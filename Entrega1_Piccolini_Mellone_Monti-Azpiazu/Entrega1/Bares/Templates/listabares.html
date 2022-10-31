@@ -4,9 +4,8 @@
 
 {% block contenidoQueCambia %}
 
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Búsqueda de bares:</h2>
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Búsqueda de bares:</h2>
 
-    <h4>Estos son los bares disponibles</h4>
     
     <ul>
         {% for bar in listabares %}
@@ -14,5 +13,8 @@
         {% endfor %}
     </ul>
         
+
+  
+    <p><a href="{% url 'bar_formulario' %}">Agregar bar</a></p>
 
 {% endblock contenidoQueCambia %}

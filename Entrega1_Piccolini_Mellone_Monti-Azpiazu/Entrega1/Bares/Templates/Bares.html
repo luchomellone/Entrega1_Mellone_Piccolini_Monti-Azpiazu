@@ -4,13 +4,13 @@
 
 {% block contenidoQueCambia %}
 
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Búsqueda de bares:</h2>
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de bares:</h2>
 
     <h4>Estos son los bares disponibles</h4>
     
     <ul>
         {% for bar in listabares %}
-            <li>{{bar.nombre}} - {{bar.email}} - {{bar.telefono}}</li>
+            <li><strong>{{bar.nombre}}</strong> - {{bar.email}} - {{bar.telefono}}</li>
         {% endfor %}
     </ul>
 

@@ -4,13 +4,13 @@
 
 {% block contenidoQueCambia %}
 
-<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Búsqueda de heladerías:</h2>
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de heladerías:</h2>
 
 <h4>Estas son las heladerías disponibles</h4>
 
 <ul>
     {% for heladeria in listaheladerias %}
-        <li>{{heladeria.nombre}} - {{heladeria.email}} - {{heladeria.telefono}}</li>
+        <li><strong>{{heladeria.nombre}}</strong> - {{heladeria.email}} - {{heladeria.telefono}}</li>
     {% endfor %}
 </ul>
 

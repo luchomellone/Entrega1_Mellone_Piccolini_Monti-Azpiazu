@@ -76,6 +76,15 @@
   }
 }
 
+#barapp {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#titulo-listas {
+  padding-bottom: 50px;
+}
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);

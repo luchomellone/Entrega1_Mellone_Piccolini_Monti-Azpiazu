@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Bares, Restaurantes, Heladerias
-from .forms import Bar_formulario, Heladeria_formulario, Buscar_formulario
+from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -11,7 +11,8 @@ def lista_bares(request):
     return render(request, 'bares.html', {'listabares': bares})
 
 def lista_restaurantes (request):
-    return render(request, 'restaurantes.html')
+    restaurantes = Restaurantes.objects.all()
+    return render(request, 'restaurantes.html', {'listarestaurantes': restaurantes})
 
 def lista_heladerias (request):
     heladerias = Heladerias.objects.all()
@@ -30,6 +31,20 @@ def bar_formulario(request):
         mi_formulario = Bar_formulario()
 
     return render(request, 'bar_formulario.html', {'mi_formulario':mi_formulario})
+
+def restaurante_formulario(request):
+    if request.method == 'POST':
+        mi_formulario = Restaurante_formulario(request.POST)
+        if mi_formulario.is_valid():
+            data = mi_formulario.cleaned_data
+            restaurante = Restaurantes(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
+            restaurante.save()
+            
+            return redirect('Restaurantes')
+    else:
+        mi_formulario = Restaurante_formulario()
+
+    return render(request, 'restaurante_formulario.html', {'mi_formulario':mi_formulario})
 
 def heladeria_formulario(request):
     if request.method == 'POST':

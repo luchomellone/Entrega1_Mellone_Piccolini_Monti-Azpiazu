@@ -68,8 +68,8 @@ def buscar (request):
 
     bar_busqueda= request.GET['bar']
 
-    bares = Bares.objects.get(nombre=bar_busqueda)
-    helade= Heladerias.objects.get(nombre=bar_busqueda)
-    restoran= Restaurantes.objects.get(nombre=bar_busqueda)
+    bares = Bares.objects.filter(nombre=bar_busqueda)
+    helade= Heladerias.objects.filter(nombre=bar_busqueda)
+    restoran= Restaurantes.objects.filter(nombre=bar_busqueda)
 
     return render(request, 'resultadoBusqueda.html', {'Bar' : bares}, {'Heladerias' : helade}, {'Restaurantes': restoran})

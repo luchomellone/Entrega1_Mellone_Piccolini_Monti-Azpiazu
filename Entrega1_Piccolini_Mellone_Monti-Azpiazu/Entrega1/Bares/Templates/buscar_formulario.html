@@ -4,9 +4,9 @@
 
 {% block contenidoQueCambia %}
 
-    <form action="{% url 'buscar_formulario' %}" method="POST">{% csrf_token %}
-        {{ mi_formulario.as_p }}
-        <input type="submit" value="Enviar">
+    <form action="{% url 'buscar_formulario' %}" method="GET">{% csrf_token %}
+        <p>Ingrese su busqueda <input type="string" name="Bar"/> </p>
+        <input type="submit" value="Buscar">
     </form>
 
 {% endblock contenidoQueCambia %}

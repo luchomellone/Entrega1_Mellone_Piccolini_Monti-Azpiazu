@@ -1,4 +1,4 @@
-from .views import heladeria_formulario, lista_bares, buscar_formulario, lista_restaurantes, lista_heladerias, inicio, bar_formulario, restaurante_formulario
+from .views import buscar, heladeria_formulario, lista_bares, buscar_formulario, lista_restaurantes, lista_heladerias, inicio, bar_formulario, restaurante_formulario
 from django.urls import path
 
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('heladerias/', lista_heladerias, name="Heladerias"),
     path('heladeria-formulario/', heladeria_formulario, name="heladeria_formulario"),
     path('buscar-formulario/', buscar_formulario, name ="buscar_formulario"),
+    path('buscar/', buscar, name ="buscar"),
 ]

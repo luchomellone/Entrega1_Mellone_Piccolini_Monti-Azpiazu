@@ -61,15 +61,15 @@ def heladeria_formulario(request):
     return render(request, 'heladeria_formulario.html', {'mi_formulario':mi_formulario})
 
 def buscar_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Buscar_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            bar.save()
-            return redirect('Bares')
-    else:
-        mi_formulario = Buscar_formulario()
+    
+    return render(request, 'buscar_formulario.html')
 
-    return render(request, 'buscar_formulario.html', {'mi_formulario':mi_formulario})
+def buscar (request):
 
+    bar_busqueda= request.GET['bar']
+
+    bares = Bares.objects.get(nombre=bar_busqueda)
+    helade= Heladerias.objects.get(nombre=bar_busqueda)
+    restoran= Restaurantes.objects.get(nombre=bar_busqueda)
+
+    return render(request, 'resultadoBusqueda.html', {'Bar' : bares}, {'Heladerias' : helade}, {'Restaurantes': restoran})

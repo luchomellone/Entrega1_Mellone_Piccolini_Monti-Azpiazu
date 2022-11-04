@@ -60,16 +60,18 @@ def heladeria_formulario(request):
 
     return render(request, 'heladeria_formulario.html', {'mi_formulario':mi_formulario})
 
-def buscar_formulario(request):
-    
-    return render(request, 'buscar_formulario.html')
-
-def buscar (request):
-
+def buscar_restaurante (request):
     resto_busqueda= request.GET['restaurante']
-
     restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
+    return render(request, 'resultado_restaurante.html', {'restaurante': restoran, 'query': resto_busqueda})
 
-    return render(request, 'resultadoBusqueda.html', {'restaurante': restoran, 'query': resto_busqueda})
+def buscar_bar (request):
+    bar_busqueda= request.GET['bar']
+    mi_bar= Bares.objects.filter(nombre=bar_busqueda)
+    return render(request, 'resultado_bar.html', {'bar': mi_bar, 'query': bar_busqueda})
 
+def buscar_heladeria (request):
+    heladeria_busqueda= request.GET['heladeria']
+    mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
+    return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})
 

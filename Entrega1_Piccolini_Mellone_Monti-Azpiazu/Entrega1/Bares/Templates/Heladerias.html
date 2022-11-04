@@ -4,17 +4,24 @@
 
 {% block contenidoQueCambia %}
 
+<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de heladerías:</h2>
 
-<section class="page-section portfolio" id="portfolio">
-    <div class="container">
-        <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Búsqueda de heladerias:</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        
+<!-- Formulario de busqueda-->
+<form action="{% url 'buscar_heladeria' %}" method="GET">{% csrf_token %}
+    <p>Ingrese su busqueda: <input type="string" name="heladeria"/> </p>
+    <input type="submit" value="Buscar">
+</form>
+
+</br>
+
+<h4>Listado de heladerías disponibles:</h4>
+
+<ul>
+    {% for heladeria in listaheladerias %}
+        <li><strong>{{heladeria.nombre}}</strong> - {{heladeria.email}} - {{heladeria.telefono}}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'heladeria_formulario' %}">Agregar heladeria</a></p>
 
 {% endblock contenidoQueCambia %}

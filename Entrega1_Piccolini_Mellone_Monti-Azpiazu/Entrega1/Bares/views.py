@@ -64,14 +64,12 @@ def buscar_formulario(request):
     
     return render(request, 'buscar_formulario.html')
 
-def buscar_restaurante (request):
+def buscar (request):
 
     resto_busqueda= request.GET['restaurante']
 
     restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
 
     return render(request, 'resultadoBusqueda.html', {'restaurante': restoran, 'query': resto_busqueda})
-
-def buscar_
 
 

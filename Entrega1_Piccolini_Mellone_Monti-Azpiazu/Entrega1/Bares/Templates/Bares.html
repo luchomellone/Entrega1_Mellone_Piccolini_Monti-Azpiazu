@@ -6,12 +6,15 @@
 
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de bares:</h2>
 
-    <h4>Listado de bares disponibles:</h4>
-
     <form action="{% url 'buscar_bar' %}" method="GET">{% csrf_token %}
         <p>Ingrese su busqueda <input type="string" name="bar"/> </p>
         <input type="submit" value="Buscar">
     </form>
+
+</br>
+
+    <h4>Listado de bares disponibles:</h4>
+
     
     <ul>
         {% for bar in listabares %}

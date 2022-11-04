@@ -4,26 +4,14 @@
 
 {% block contenidoQueCambia %}
 
-<h2>Resultados: <h2>
+<h2>Resultados: {{restaurante}}</h2>
 
     <ul>
-        {% for restaurante in listarestaurante}
-        <li> {{restaurante.nombre}}</li>
-        <li> {{restaurante.email}}</li>
-        <li> {{restaurante.telefono}}</li>
+        {% for restaurante in listarestaurante %}
+        <li> {{restaurante.nombre}} - {{restaurante.email}} - {{restaurante.telefono}}
+        </li>
+       
+        {% endfor %}
     </ul>
-    <ul>
-        {%for bar in listabares %}
-        <li> {{bar.nombre}}</li>
-        <li> {{bar.email}}</li>
-        <li> {{bar.telefono}}</li>
-    </ul>
-    <ul>
-        {%for heladerias in listaheladerias %}
-        <li> {{heladerias.nombre}}</li>
-        <li> {{heladerias.email}}</li>
-        <li> {{heladerias.telefono}}</li>
-    </ul>
-
 
 {% endblock contenidoQueCambia %}

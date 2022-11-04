@@ -4,8 +4,8 @@
 
 {% block contenidoQueCambia %}
 
-    <form action="{% url 'buscar_formulario' %}" method="GET">{% csrf_token %}
-        <p>Ingrese su busqueda <input type="string" name="Bar"/> </p>
+    <form action="{% url 'buscar' %}" method="GET">{% csrf_token %}
+        <p>Ingrese su busqueda <input type="string" name="restaurante"/> </p>
         <input type="submit" value="Buscar">
     </form>
 

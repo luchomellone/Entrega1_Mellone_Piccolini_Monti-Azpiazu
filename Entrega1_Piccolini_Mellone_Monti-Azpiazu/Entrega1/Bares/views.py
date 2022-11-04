@@ -66,10 +66,10 @@ def buscar_formulario(request):
 
 def buscar (request):
 
-    bar_busqueda= request.GET['bar']
+    resto_busqueda= request.GET['restaurante']
 
-    bares = Bares.objects.filter(nombre=bar_busqueda)
-    helade= Heladerias.objects.filter(nombre=bar_busqueda)
-    restoran= Restaurantes.objects.filter(nombre=bar_busqueda)
+    restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
 
-    return render(request, 'resultadoBusqueda.html', {'Bar' : bares}, {'Heladerias' : helade}, {'Restaurantes': restoran})
+    return render(request, 'resultadoBusqueda.html', {'restaurante': restoran, 'query': resto_busqueda})
+
+

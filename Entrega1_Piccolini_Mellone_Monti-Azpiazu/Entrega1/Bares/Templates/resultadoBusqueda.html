@@ -4,11 +4,11 @@
 
 {% block contenidoQueCambia %}
 
-<h2>Resultados: {{restaurante}}</h2>
+<h2>Resultados: {{query}}</h2>
 
     <ul>
-        {% for restaurante in listarestaurante %}
-        <li> {{restaurante.nombre}} - {{restaurante.email}} - {{restaurante.telefono}}
+        {% for elem in restaurante %}
+        <li> {{elem.nombre}} - {{elem.email}} - {{elem.telefono}}
         </li>
        
         {% endfor %}

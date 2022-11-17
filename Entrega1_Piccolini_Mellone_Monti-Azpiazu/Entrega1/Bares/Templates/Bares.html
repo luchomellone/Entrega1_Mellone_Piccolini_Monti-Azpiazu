@@ -6,23 +6,28 @@
 
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" id="titulo-listas">Búsqueda de bares:</h2>
 
+    <h4>Listado de bares disponibles:</h4>
+
     <form action="{% url 'buscar_bar' %}" method="GET">{% csrf_token %}
         <p>Ingrese su busqueda <input type="string" name="bar"/> </p>
         <input type="submit" value="Buscar">
     </form>
-
-</br>
-
-    <h4>Listado de bares disponibles:</h4>
-
     
     <ul>
         {% for bar in listabares %}
-            <li><strong>{{bar.nombre}}</strong> - {{bar.email}} - {{bar.telefono}}</li>
+            <li><strong><a href="{% url 'detalle_bares' bar.id %}">{{bar.nombre}}</a></strong> - {{bar.email}} - {{bar.telefono}}</li>
+            <div>
+                <button>
+                    <a href="{% url 'bar_delete' bar.id %}">Eliminar</a>
+                </button>
+                <button>
+                    <a href="{% url 'bar_update' bar.id %}">Editar</a>
+                </button>
+            </div>
         {% endfor %}
     </ul>
 
-    <p><a href="{% url 'bar_formulario' %}">Agregar bar</a></p>
+    <p><a href="{% url 'bar_create' %}">Agregar bar</a></p>
         
 
 {% endblock contenidoQueCambia %}

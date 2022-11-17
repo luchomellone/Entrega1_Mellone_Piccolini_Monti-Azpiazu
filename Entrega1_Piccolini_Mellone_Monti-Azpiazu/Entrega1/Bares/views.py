@@ -1,65 +1,105 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Bares, Restaurantes, Heladerias
-from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario
+from .forms import Bar_formulario, Restaurante_formulario, Heladeria_formulario, Buscar_formulario, UserEditForm
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def inicio(request):
+#    avatar = Avatar.objects.get(user=request.user)
+#    if avatar.is_valid():
     return render(request, 'inicio.html')
 
-def lista_bares(request):
-    bares = Bares.objects.all()
-    return render(request, 'bares.html', {'listabares': bares})
+# CREACIÓN DE LISTAS
 
-def lista_restaurantes (request):
-    restaurantes = Restaurantes.objects.all()
-    return render(request, 'restaurantes.html', {'listarestaurantes': restaurantes})
+class BaresList(ListView):
+    model = Bares
+    template_name = 'bares.html'
+    context_object_name = "listabares"
 
-def lista_heladerias (request):
-    heladerias = Heladerias.objects.all()
-    return render(request, 'heladerias.html', {'listaheladerias': heladerias})
+class RestaurantesList(ListView):
+    model = Restaurantes
+    template_name = 'restaurantes.html'
+    context_object_name = "listarestaurantes"
 
-def bar_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Bar_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            bar = Bares(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            bar.save()
-            
-            return redirect('Bares')
-    else:
-        mi_formulario = Bar_formulario()
+class HeladeriasList(ListView):
+    model = Heladerias
+    template_name = 'heladerias.html'
+    context_object_name = "listaheladerias"
 
-    return render(request, 'bar_formulario.html', {'mi_formulario':mi_formulario})
+# VISTAS DE DETALLE
 
-def restaurante_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Restaurante_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            restaurante = Restaurantes(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            restaurante.save()
-            
-            return redirect('Restaurantes')
-    else:
-        mi_formulario = Restaurante_formulario()
+class BaresDetail(DetailView):
+    model = Bares
+    template_name = 'bares_detalle.html'
 
-    return render(request, 'restaurante_formulario.html', {'mi_formulario':mi_formulario})
+# CREACIÓN DE ELEMENTOS
 
-def heladeria_formulario(request):
-    if request.method == 'POST':
-        mi_formulario = Heladeria_formulario(request.POST)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            heladeria = Heladerias(nombre=data['nombre'], email=data['email'], telefono=data['telefono'])
-            heladeria.save()
-            
-            return redirect('Heladerias')
-    else:
-        mi_formulario = Heladeria_formulario()
+class BaresCreate(CreateView):
+    model = Bares
+    template_name = 'bares_create.html'
+    fields = ["nombre", "email", "telefono"]
+    success_url = "/app-bares/bares/"
 
-    return render(request, 'heladeria_formulario.html', {'mi_formulario':mi_formulario})
+class RestaurantesCreate(CreateView):
+    model = Restaurantes
+    template_name = 'restaurantes_create.html'
+    fields = ("__all__")
+    success_url = "/app-bares/restaurantes/"
 
+class HeladeriasCreate(CreateView):
+    model = Heladerias
+    template_name = 'heladerias_create.html'
+    fields = ("__all__")
+    success_url = "/app-bares/heladerias/"
+
+# ACTUALIZAR OBJETOS
+
+class BaresUpdate(UpdateView):
+    model = Bares
+    template_name = 'bares_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/bares/"
+    context_object_name = "bares"
+
+class RestaurantesUpdate(UpdateView):
+    model = Restaurantes
+    template_name = 'restaurantes_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/restaurantes/"
+    context_object_name = "restaurantes"
+
+class HeladeriasUpdate(UpdateView):
+    model = Heladerias
+    template_name = 'heladerias_update.html'
+    fields = ("__all__")
+    success_url = "/app-bares/heladerias/"
+    context_object_name = "heladerias"
+
+# ELIMINAR OBJETOS
+
+class BaresDelete(LoginRequiredMixin, DeleteView):
+    model = Bares
+    template_name = 'bares_delete.html'
+    success_url = "/app-bares/bares/"
+
+class HeladeriasDelete(LoginRequiredMixin, DeleteView):
+    model = Heladerias
+    template_name = 'heladerias_delete.html'
+    success_url = "/app-bares/heladerias/"
+
+class RestaurantesDelete(LoginRequiredMixin, DeleteView):
+    model = Restaurantes
+    template_name = 'restaurantes_delete.html'
+    success_url = "/app-bares/restaurantes/"
+
+# BUSCAR REGISTROS
+@login_required
 def buscar_restaurante (request):
     resto_busqueda= request.GET['restaurante']
     restoran= Restaurantes.objects.filter(nombre=resto_busqueda)
@@ -75,3 +115,60 @@ def buscar_heladeria (request):
     mi_heladeria= Heladerias.objects.filter(nombre=heladeria_busqueda)
     return render(request, 'resultado_heladeria.html', {'heladeria': mi_heladeria, 'query': heladeria_busqueda})
 
+# USUARIOS
+def login_view(request):
+    if request.method == 'POST':
+        miFormulario = AuthenticationForm(request, data=request.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario = data["username"]
+            psw = data["password"]
+            user = authenticate(username=usuario, password=psw)
+            if user:
+                login(request, user)
+                return render(request, 'inicio.html', {"mensaje": f"Bienvendido {usuario}"})
+            else:
+                return render(request, 'inicio.html', {"mensaje": f"Error, datos incorrectos"})
+        return render(request, 'inicio.html', {"mensaje": f"Error, formulario invalido"})   
+        
+    else:
+        miFormulario = AuthenticationForm()
+        return render(request, 'login.html', {'miFormulario': miFormulario})
+
+def register(request):
+    if request.method == 'POST':
+        miFormulario = UserCreationForm(request.POST)
+
+        if miFormulario.is_valid():
+            username = miFormulario.cleaned_data["username"]
+            miFormulario.save()
+            return render(request, 'inicio.html', {"mensaje": f"Usuario {username} creado con éxito."})
+        else:
+            return render(request, 'inicio.html', {"mensaje": "Error al crear el usuario."})
+    else:
+        miFormulario = UserCreationForm()
+        return render(request, 'registro.html', {'miFormulario': miFormulario})
+
+def editar_perfil(request):
+    usuario = request.user
+
+    if request.method =='POST':
+        miFormulario = UserEditForm(request.POST)
+
+        if miFormulario.is_valid():
+            data = miFormulario.cleaned_data
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+            usuario.set_password(data['password1'])
+            
+            usuario.save()
+
+            return render(request, 'inicio.html', {"mensaje": "Datos actualizados"})
+
+        return render(request, 'editar_perfil.html', {"mensaje": "Las constraseñas no coinciden"})
+        
+    else:
+        miFormulario = UserEditForm(instance=request.user)
+        return render(request, 'editar_perfil.html', {"miFormulario": miFormulario})

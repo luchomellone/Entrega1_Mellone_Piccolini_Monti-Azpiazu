@@ -11,8 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 def inicio(request):
-     avatar = Avatar.objects.get(user=request.user)
-     return render(request, "inicio.html", {"url": avatar.imagen.url})
+     return render(request, "inicio.html", {'mensaje':'Bienvenido'})
+
+#def inicio_user(request):
+#     avatar = Avatar.objects.get(user=request.user)
+#     return render(request, "inicio.html", {"url": avatar.imagen.url})
 
 # CREACIÓN DE LISTAS
 
@@ -171,3 +174,8 @@ def editar_perfil(request):
     else:
         miFormulario = UserEditForm(instance=request.user)
         return render(request, 'editar_perfil.html', {"miFormulario": miFormulario})
+
+def mostrar_perfil(request):
+    usuario = request.user
+    avatar = Avatar.objects.get(user=request.user)
+    return render(request, 'mostrar_perfil.html', {"usuario": usuario, "url": avatar.imagen.url})

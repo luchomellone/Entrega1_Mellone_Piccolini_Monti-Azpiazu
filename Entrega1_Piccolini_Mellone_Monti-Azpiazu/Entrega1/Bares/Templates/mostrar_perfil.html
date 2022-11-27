@@ -1,0 +1,13 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+        
+    <h1>{{user.username}}</h1>
+    <h2>{{user.lastname}}</h2>
+    <h3>{{user.email}}</h3>
+    <img src="{{url}}" alt="avatar">
+    <p><a href="{% url 'editar_perfil' %}">Editar mis datos</a></p>
+
+{% endblock contenidoQueCambia %}

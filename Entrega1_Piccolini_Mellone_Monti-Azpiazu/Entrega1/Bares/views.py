@@ -179,3 +179,6 @@ def mostrar_perfil(request):
     usuario = request.user
     avatar = Avatar.objects.get(user=request.user)
     return render(request, 'mostrar_perfil.html', {"usuario": usuario, "url": avatar.imagen.url})
+
+def acerca(request):
+    return render (request, 'Acerca.html')
